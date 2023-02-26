@@ -1,9 +1,22 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.model_selection import cross_val_score, KFold
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from starter.ml.data import process_data
 
 import os
 import joblib
+
+cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
@@ -48,6 +61,30 @@ def compute_model_metrics(y, preds):
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
+
+def evaluate_slices(model, data, feature):
+
+    train, test = train_test_split(data, test_size=0.20, random_state=42)
+    _, _, encoder, lb = process_data(
+            train, categorical_features=cat_features, label="salary", training=True
+        )
+    unique_values = data[feature].unique()
+    metrics = {}
+
+    for value in unique_values:
+        subset = test[test[feature] == value]
+        X_test, y_test, encoder, lb = process_data(
+                subset, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+            )
+        y_pred = inference(model, X_test)
+        precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
+        metrics[value] = {
+            "Precision": precision,
+            "Recall": recall,
+            "Fbeta": fbeta
+        }
+
+    return metrics
 
 
 def inference(model, X):

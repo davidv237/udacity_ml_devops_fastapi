@@ -17,7 +17,7 @@ def data():
     print(data_path)
 
     """ Simple function to generate some fake Pandas data."""
-    data = pd.read_csv(data_path)
+    data = pd.read_csv('/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/data/census.csv')
     return data
 
 def test_data_shape(data):

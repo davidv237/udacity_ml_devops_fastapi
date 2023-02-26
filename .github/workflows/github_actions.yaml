@@ -35,4 +35,5 @@ jobs:
 
     - name: Run Pytest
       run: |
+        pwd
         pytest

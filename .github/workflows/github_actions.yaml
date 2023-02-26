@@ -36,4 +36,5 @@ jobs:
     - name: Run Pytest
       run: |
         pwd
+        ls -h
         pytest

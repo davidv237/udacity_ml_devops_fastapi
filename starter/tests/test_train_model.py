@@ -33,6 +33,8 @@ def data():
     """ Simple function to generate some fake Pandas data."""
     data = pd.read_csv(data_path)
     data.columns = data.columns.str.strip()
+    cwd = os.getcwd()
+    print(cwd)
     return data
 
 @pytest.fixture

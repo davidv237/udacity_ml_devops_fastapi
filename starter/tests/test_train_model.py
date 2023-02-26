@@ -3,22 +3,31 @@ import pandas as pd
 import os
 
 
+from dotenv import load_dotenv
 
-@pytest.fixture
-def data():
-    cwd = os.getcwd()
-    print("cwd")
-    print(cwd)
-    files = os.listdir(cwd)
+# Load environment variables from .env file
+load_dotenv()
 
-    print(files)
-    data_path = '/starter/data/census.csv'
-    data_path = os.path.join(cwd,data_path)
-    print(data_path)
 
-    """ Simple function to generate some fake Pandas data."""
-    data = pd.read_csv('/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/data/census.csv')
-    return data
+if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
+    # Do something if the environment variable is set to 'some_value'
+    print("Environment is set to 'development'")
+    @pytest.fixture
+    def data():
+        data_path = '/Users/david/Code/digerian/udacity_ml_devops_fastapi/starter/data/census.csv'
+
+        """ Simple function to generate some fake Pandas data."""
+        data = pd.read_csv(data_path)
+        return data
+else:
+    # Do something else if the environment variable is not set or has a different value
+    print("ENVIRONMENT is set to GitHub Actions")
+    @pytest.fixture
+    def data():
+        """ Simple function to generate some fake Pandas data."""
+        data = pd.read_csv('/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/data/census.csv')
+        return data
+
 
 def test_data_shape(data):
     """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""

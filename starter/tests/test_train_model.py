@@ -2,21 +2,17 @@ import pytest
 import pandas as pd
 import os
 
-cwd = os.getcwd()
-print("cwd")
-print(cwd)
-
-parent_dir = os.path.abspath(os.path.join(cwd, os.pardir))
-print("parent_dir")
-print(parent_dir)
-
-data_path = 'data/census.csv'
-
-data_path = os.path.join(parent_dir,data_path)
 
 
 @pytest.fixture
 def data():
+    cwd = os.getcwd()
+    print("cwd")
+    print(cwd)
+
+    data_path = 'data/census.csv'
+    data_path = os.path.join(cwd,data_path)
+
     """ Simple function to generate some fake Pandas data."""
     data = pd.read_csv(data_path)
     return data

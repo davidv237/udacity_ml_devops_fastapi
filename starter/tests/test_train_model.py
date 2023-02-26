@@ -3,10 +3,12 @@ import pandas as pd
 import os
 
 
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    # Load environment variables from .env file
+    load_dotenv()
+except ImportError:
+    print("dotenv is not installed")
 
 
 if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':

@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-#from starter.ml.data import process_data
+from starter.ml.data import process_data
 
 cwd = os.getcwd()
 print(cwd)
@@ -59,13 +59,13 @@ def test_split_data(data):
 
     assert train.shape[0] > test.shape[0], "Data does not have the expected shape."
 
-# def test_process_train_data(data, cat_features):
-#     """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
-#     train, test = train_test_split(data, test_size=0.20, random_state=42)
-#     X_train, y_train, encoder, lb = process_data(
-#         train, categorical_features=cat_features, label="salary", training=True
-#         )
-#     assert X_train.shape == (26048, 108) and y_train.shape == (26048,), "Data does not have the expected shape."
+def test_process_train_data(data, cat_features):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    train, test = train_test_split(data, test_size=0.20, random_state=42)
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+        )
+    assert X_train.shape == (26048, 108) and y_train.shape == (26048,), "Data does not have the expected shape."
 
 def test_train_model(data):
     """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""

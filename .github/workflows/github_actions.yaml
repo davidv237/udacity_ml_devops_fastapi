@@ -37,4 +37,5 @@ jobs:
       run: |
         pwd
         ls -h
+        export PYTHONPATH=$PYTHONPATH:/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter
         pytest

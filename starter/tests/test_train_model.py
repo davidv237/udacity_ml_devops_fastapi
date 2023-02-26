@@ -14,6 +14,7 @@ def data():
     print(files)
     data_path = '/starter/data/census.csv'
     data_path = os.path.join(cwd,data_path)
+    print(data_path)
 
     """ Simple function to generate some fake Pandas data."""
     data = pd.read_csv(data_path)

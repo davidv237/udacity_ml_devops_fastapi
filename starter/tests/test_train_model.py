@@ -2,17 +2,19 @@ import pytest
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-from starter.ml.data import process_data
 
 cwd = os.getcwd()
 print(cwd)
 
 try:
     from dotenv import load_dotenv
+    from starter.ml.data import process_data
     # Load environment variables from .env file
     load_dotenv()
+
 except ImportError:
     print("dotenv is not installed")
+    from ml.data import process_data
 
 
 if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':

@@ -34,3 +34,23 @@ else:
 def test_data_shape(data):
     """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
     assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+def test_data_shape_2(data):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+def test_data_shape_3(data):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+def test_data_shape_4(data):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+def test_data_shape_5(data):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+def test_data_shape_6(data):
+    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."

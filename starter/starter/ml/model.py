@@ -94,3 +94,4 @@ def load_model(path_to_model):
     """
     model = joblib.load(path_to_model)
     return model
+

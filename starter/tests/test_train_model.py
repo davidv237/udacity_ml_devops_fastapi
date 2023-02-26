@@ -4,8 +4,6 @@ import os
 from sklearn.model_selection import train_test_split
 from starter.ml.data import process_data
 
-cwd = os.getcwd()
-print(cwd)
 
 try:
     from dotenv import load_dotenv
@@ -15,7 +13,6 @@ try:
 
 except ImportError:
     print("dotenv is not installed")
-
 
 
 if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
@@ -33,8 +30,6 @@ def data():
     """ Simple function to generate some fake Pandas data."""
     data = pd.read_csv(data_path)
     data.columns = data.columns.str.strip()
-    cwd = os.getcwd()
-    print(cwd)
     return data
 
 @pytest.fixture

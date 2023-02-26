@@ -4,6 +4,8 @@
 from sklearn.linear_model import LogisticRegression
 from ml.model import train_model, compute_model_metrics, inference, load_model, save_model
 from ml.data import process_data, prepare_data
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 
 # Add the necessary imports for the starter code.
@@ -62,3 +64,32 @@ precision, recall, fbeta = compute_model_metrics(y_test, preds)
 print(f"Precision: {precision}")
 print(f"Recall: {recall}")
 print(f"Fbeta: {fbeta}")
+
+
+def evaluate_slices(model, data, feature):
+
+    train, test = train_test_split(data, test_size=0.20, random_state=42)
+    _, _, encoder, lb = process_data(
+            train, categorical_features=cat_features, label="salary", training=True
+        )
+    unique_values = data[feature].unique()
+    metrics = {}
+
+    for value in unique_values:
+        subset = test[test[feature] == value]
+        X_test, y_test, encoder, lb = process_data(
+                subset, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+            )
+        y_pred = inference(model, X_test)
+        precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
+        metrics[value] = {
+            "Precision": precision,
+            "Recall": recall,
+            "Fbeta": fbeta
+        }
+
+    return metrics
+
+
+metrics = evaluate_slices(loaded_model, data, 'education')
+print(metrics)

@@ -1,8 +1,9 @@
 # Script to train machine learning model.
 
-from sklearn.model_selection import train_test_split
-from ml.model import train_model
-from ml.data import process_data
+
+from sklearn.linear_model import LogisticRegression
+from ml.model import train_model, compute_model_metrics, inference, load_model, save_model
+from ml.data import process_data, prepare_data
 
 
 # Add the necessary imports for the starter code.
@@ -13,29 +14,14 @@ import pandas as pd
 
 
 cwd = os.getcwd()
-print("cwd")
-print(cwd)
-
-parent_dir = os.path.abspath(os.path.join(cwd, os.pardir))
-print("parent_dir")
-print(parent_dir)
-
-data_path = './data/census.csv'
-model_path = './model'
-
-data_path = os.path.join(parent_dir,data_path)
-model_path = os.path.join(parent_dir,model_path)
+data_path = os.path.join(cwd,'data/census.csv')
+print(data_path)
+model_path = os.path.join(cwd,'./model')
 
 
 # Add code to load in the data.
 data = pd.read_csv(data_path)
 data.columns = data.columns.str.strip()
-
-print("data.shape")
-print(data.shape)
-
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20)
 
 
 cat_features = [
@@ -48,20 +34,31 @@ cat_features = [
     "sex",
     "native-country",
 ]
-X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
-)
 
-# Process the test data with the process_data function.
-X_train, y_train, encoder, lb = process_data(
-    test, categorical_features=cat_features, label="salary", training=True
-)
 
-# Train and save a model.
+# Splitting and preparing data
+X_train, y_train, X_test, y_test = prepare_data(data, cat_features)
+
+# Train model
 print('Training model ...')
 model = train_model(X_train,y_train)
 
 #Save model
 print('Saving model ...')
-filename = os.path.join(model_path,'logistic_regression.joblib')
-joblib.dump(model, filename)
+path_to_model = save_model(model, cwd)
+
+#Load model
+print('Loading model ...')
+loaded_model = load_model(path_to_model)
+
+
+print('Making predictions ...')
+preds = inference(loaded_model, X_test)
+print(preds)
+
+
+print('Printing model scores..')
+precision, recall, fbeta = compute_model_metrics(y_test, preds)
+print(f"Precision: {precision}")
+print(f"Recall: {recall}")
+print(f"Fbeta: {fbeta}")

@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-
+from sklearn.model_selection import train_test_split
 
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
@@ -68,3 +68,20 @@ def process_data(
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
+
+
+def prepare_data(data, cat_features):
+    # splitting data
+    train, test = train_test_split(data, test_size=0.20, random_state=42)
+
+    # processing train data
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+    )
+
+    # Process the test data with the process_data function.
+    X_test, y_test, encoder, lb = process_data(
+        test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+    )
+
+    return X_train, y_train, X_test, y_test

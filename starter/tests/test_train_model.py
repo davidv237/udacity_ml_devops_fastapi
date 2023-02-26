@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-from starter.ml.data import process_data
+#from starter.ml.data import process_data
 
 cwd = os.getcwd()
 print(cwd)

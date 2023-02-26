@@ -10,7 +10,7 @@ parent_dir = os.path.abspath(os.path.join(cwd, os.pardir))
 print("parent_dir")
 print(parent_dir)
 
-data_path = './data/census.csv'
+data_path = 'data/census.csv'
 
 data_path = os.path.join(parent_dir,data_path)
 

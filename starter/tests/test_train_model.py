@@ -9,7 +9,9 @@ def data():
     cwd = os.getcwd()
     print("cwd")
     print(cwd)
+    files = os.listdir(cwd)
 
+    print(files)
     data_path = 'data/census.csv'
     data_path = os.path.join(cwd,data_path)
 

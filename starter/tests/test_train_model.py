@@ -12,7 +12,7 @@ def data():
     files = os.listdir(cwd)
 
     print(files)
-    data_path = 'data/census.csv'
+    data_path = '/starter/data/census.csv'
     data_path = os.path.join(cwd,data_path)
 
     """ Simple function to generate some fake Pandas data."""

@@ -2,7 +2,7 @@
 
 
 from sklearn.linear_model import LogisticRegression
-from ml.model import train_model, compute_model_metrics, inference, load_model, save_model, evaluate_slices, cat_features
+from ml.model import train_model, compute_model_metrics, inference, load_model, save_model, evaluate_slices, cat_features, hyperparameter_tuning
 from ml.data import process_data, prepare_data
 
 
@@ -25,11 +25,14 @@ data = pd.read_csv(data_path)
 data.columns = data.columns.str.strip()
 
 # Splitting and preparing data
+print('Splitting and preparing data ...')
 X_train, y_train, X_test, y_test = prepare_data(data, cat_features)
 
 # Train model
+print('Optimizing model ...')
+optimized_model = hyperparameter_tuning(X_train, y_train)
 print('Training model ...')
-model = train_model(X_train,y_train)
+model = train_model(optimized_model, X_train,y_train)
 
 #Save model
 print('Saving model ...')

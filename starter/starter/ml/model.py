@@ -2,7 +2,11 @@ from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
 from starter.ml.data import process_data
+from scipy.stats import randint
 
 import os
 import joblib
@@ -19,7 +23,52 @@ cat_features = [
 ]
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def hyperparameter_tuning(X_train, y_train):
+    """
+    Trains a machine learning model and returns it.
+
+    Inputs
+    ------
+    X_train : np.array
+        Training data.
+    y_train : np.array
+        Labels.
+    Returns
+    -------
+    model
+        Trained machine learning model.
+    """
+    param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [10, 20, 30, None],
+    'max_features': ['auto', 'sqrt']
+    }
+    param_dist = {
+        'n_estimators': randint(50, 500),
+        'max_depth': [10, 20, 30, None],
+        'max_features': ['auto', 'sqrt'],
+        'min_samples_split': randint(2, 20),
+        'min_samples_leaf': randint(1, 20),
+        'bootstrap': [True, False]
+    }
+    # Define the Random Forest Classifier
+    rfc = RandomForestClassifier(random_state=42)
+
+
+    # Perform grid search to find the best hyperparameters
+    grid_search = RandomizedSearchCV(estimator=rfc, param_distributions=param_dist, n_iter=10, cv=3,verbose=2)
+    grid_search.fit(X_train, y_train)
+
+    # Get the best hyperparameters
+    best_params = grid_search.best_params_
+
+    # Create a new classifier with the best hyperparameters
+    best_rfc = RandomForestClassifier(random_state=42, **best_params)
+
+    return best_rfc
+
+
+def train_model(model, X_train, y_train):
     """
     Trains a machine learning model and returns it.
 
@@ -36,8 +85,11 @@ def train_model(X_train, y_train):
     """
 
     # Define the logistic regression model
-    model = LogisticRegression(max_iter=1000)
-    model.fit(X_train,y_train)
+    #model = LogisticRegression(max_iter=1000)
+    #model.fit(X_train,y_train)
+
+    #rfc = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+    model.fit(X_train, y_train)
 
     return model
 
@@ -131,4 +183,7 @@ def load_model(path_to_model):
     """
     model = joblib.load(path_to_model)
     return model
+
+
+
 

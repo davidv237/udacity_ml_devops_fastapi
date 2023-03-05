@@ -84,4 +84,4 @@ def prepare_data(data, cat_features):
         test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
     )
 
-    return X_train, y_train, X_test, y_test
+    return X_train, y_train, X_test, y_test, lb, encoder

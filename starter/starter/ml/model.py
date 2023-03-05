@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
-from starter.ml.data import process_data
+from ml.data import process_data
 from scipy.stats import randint
 
 import os
@@ -155,7 +155,7 @@ def inference(model, X):
     """
     return model.predict(X)
 
-def save_model(model, pth):
+def save_model(model, encoder, pth):
     """ Save model to specific location.
 
     Inputs
@@ -168,7 +168,11 @@ def save_model(model, pth):
     """
     path_to_model = os.path.join(pth,'logistic_regression.joblib')
     joblib.dump(model, path_to_model)
-    return path_to_model
+
+    path_to_encoder = os.path.join(pth,'encoder.joblib')
+    joblib.dump(encoder, path_to_encoder)
+
+    return path_to_model, path_to_encoder
 
 def load_model(path_to_model):
     """ Load model from specific location.

@@ -13,11 +13,20 @@ import os
 
 import pandas as pd
 
+# Get the absolute path of the current file
+current_file_path = os.path.abspath(__file__)
 
-cwd = os.getcwd()
-data_path = os.path.join(cwd,'data/census.csv')
-print(data_path)
-model_path = os.path.join(cwd,'./model')
+# Get the parent directory of the current file
+parent_directory_path = os.path.dirname(current_file_path)
+
+# Get the parent directory of the current file
+project_directory_path = os.path.dirname(parent_directory_path)
+
+path_model_folder = os.path.join(project_directory_path,'model')
+
+data_path = os.path.join(project_directory_path,'data/census.csv')
+# print(data_path)
+# model_path = os.path.join(cwd,'./model')
 
 
 # Add code to load in the data.
@@ -26,7 +35,7 @@ data.columns = data.columns.str.strip()
 
 # Splitting and preparing data
 print('Splitting and preparing data ...')
-X_train, y_train, X_test, y_test = prepare_data(data, cat_features)
+X_train, y_train, X_test, y_test, lb, encoder = prepare_data(data, cat_features)
 
 # Train model
 print('Optimizing model ...')
@@ -35,8 +44,11 @@ print('Training model ...')
 model = train_model(optimized_model, X_train,y_train)
 
 #Save model
-print('Saving model ...')
-path_to_model = save_model(model, cwd)
+print('Saving model and encoder ...')
+path_to_model, path_to_encoder = save_model(model, encoder, path_model_folder)
+# Saving Label Binarizer
+path_to_lb = os.path.join(path_model_folder,'lb.joblib')
+joblib.dump(lb, path_to_lb)
 
 #Load model
 print('Loading model ...')

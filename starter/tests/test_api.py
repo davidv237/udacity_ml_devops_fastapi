@@ -89,8 +89,8 @@ def test_post_method(post_data):
     """ Tests if our data has all 32561 rows containing 15 features each"""
     response = requests.post('http://localhost:8000/predict', json=post_data)
     # Get the prediction result from the response
-    prediction = response.json()
-    print(prediction)
+    #prediction = response.json()
+    print(response.text)
 
     assert response.status_code == 200
     assert prediction["predictions"] == '[" <=50K"]'

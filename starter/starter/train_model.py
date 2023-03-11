@@ -51,12 +51,14 @@ X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label="salary", training=True
 )
 
+
 # Process the test data with the process_data function.
 X_test, y_test, _, _ = process_data(
     test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
 )
 
 
+print(y_test[0])
 # Train model
 print('Optimizing model ...')
 optimized_model = hyperparameter_tuning(X_train, y_train)
@@ -77,6 +79,9 @@ loaded_model = load_model(path_to_model)
 
 print('Making predictions ...')
 preds = inference(loaded_model, X_test)
+print(preds)
+
+print(y_test)
 print(preds)
 
 

@@ -43,7 +43,7 @@ project_directory_path = os.path.dirname(parent_directory_path)
 
 model_path = os.path.join(project_directory_path,'model/logistic_regression.joblib')
 encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
-label_encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
+label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
 
 model = load_model(model_path)
 encoder = load_model(encoder_path)
@@ -78,9 +78,15 @@ async def predict(data: InputData):
     # Make predictions using the loaded model
     predictions = inference(model, X_test_processed)
 
-    # # Convert the predictions back to the original labels
-    #predictions = lb.inverse_transform(predictions.reshape(1, -1))
+
+    original_labels = lb.inverse_transform(predictions)
+    # print(original_labels)
+    # print(response.json())
+    print(original_labels)
+
 
     # Return the predictions as a JSON response
-    json_data = json.dumps(predictions.tolist())
+    json_data = json.dumps(original_labels.tolist())
+
+
     return {"predictions": json_data}

@@ -41,7 +41,7 @@ parent_directory_path = os.path.dirname(current_file_path)
 # Get the parent directory of the current file
 project_directory_path = os.path.dirname(parent_directory_path)
 
-model_path = os.path.join(project_directory_path,'model/logistic_regression.joblib')
+model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
 encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
 label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
 

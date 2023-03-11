@@ -112,21 +112,6 @@ def compute_model_metrics(y, preds):
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
 
-def evaluate_slices(model, encoder, lb, test, feature, unique_values_for_feature):
-    metrics = {}
-
-    for value in unique_values_for_feature:
-        subset = test[test[feature] == value]
-        y_pred = inference(model, subset)
-        precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
-        metrics[value] = {
-            "Precision": precision,
-            "Recall": recall,
-            "Fbeta": fbeta
-        }
-
-    return metrics
-
 
 def inference(model, X):
     """ Run model inferences and return the predictions.

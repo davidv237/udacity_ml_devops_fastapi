@@ -33,8 +33,6 @@ else:
     label_encoder_path = '/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib'
 
 
-
-
 lb = load_model(label_encoder_path)
 
 @pytest.fixture
@@ -92,6 +90,7 @@ def test_post_method(post_data):
     response = requests.post('http://localhost:8000/predict', json=post_data)
     # Get the prediction result from the response
     prediction = response.json()
+    print(prediction)
 
     assert response.status_code == 200
     assert prediction["predictions"] == '[" <=50K"]'

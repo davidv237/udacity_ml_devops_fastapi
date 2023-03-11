@@ -5,13 +5,36 @@ from starter.ml.model import load_model
 import numpy as np
 import pdb
 
-# Get the absolute path of the current file
-current_file_path = os.path.abspath(__file__)
-# Get the parent directory of the current file
-parent_directory_path = os.path.dirname(current_file_path)
-# Get the parent directory of the current file
-project_directory_path = os.path.dirname(parent_directory_path)
-label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
+
+try:
+    from dotenv import load_dotenv
+
+    # Load environment variables from .env file
+    load_dotenv()
+
+except ImportError:
+    print("dotenv is not installed")
+
+
+if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
+    # Do something if the environment variable is set to 'some_value'
+    print("Environment is set to 'development'")
+    # Get the absolute path of the current file
+    current_file_path = os.path.abspath(__file__)
+    # Get the parent directory of the current file
+    parent_directory_path = os.path.dirname(current_file_path)
+    # Get the parent directory of the current file
+    project_directory_path = os.path.dirname(parent_directory_path)
+    label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
+
+else:
+    # Do something else if the environment variable is not set or has a different value
+    print("ENVIRONMENT is set to GitHub Actions")
+    label_encoder_path = '/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib'
+
+
+
+
 lb = load_model(label_encoder_path)
 
 @pytest.fixture

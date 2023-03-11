@@ -6,7 +6,6 @@ from ml.model import train_model, compute_model_metrics, inference, load_model, 
 from ml.data import process_data, prepare_data
 
 
-
 # Add the necessary imports for the starter code.
 import joblib
 import os
@@ -33,9 +32,17 @@ data_path = os.path.join(project_directory_path,'data/census.csv')
 data = pd.read_csv(data_path)
 data.columns = data.columns.str.strip()
 
+print(data.shape)
+
 # Splitting and preparing data
 print('Splitting and preparing data ...')
 X_train, y_train, X_test, y_test, lb, encoder = prepare_data(data, cat_features)
+print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)
+print(type(lb))
+print(type(encoder))
 
 # Train model
 print('Optimizing model ...')

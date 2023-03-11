@@ -5,7 +5,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
-from ml.data import process_data
 from scipy.stats import randint
 
 import os
@@ -114,29 +113,29 @@ def compute_model_metrics(y, preds):
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
 
-def evaluate_slices(model, data, feature):
+# def evaluate_slices(model, data, feature):
 
-    train, test = train_test_split(data, test_size=0.20, random_state=42)
-    _, _, encoder, lb = process_data(
-            train, categorical_features=cat_features, label="salary", training=True
-        )
-    unique_values = data[feature].unique()
-    metrics = {}
+#     train, test = train_test_split(data, test_size=0.20, random_state=42)
+#     _, _, encoder, lb = process_data(
+#             train, categorical_features=cat_features, label="salary", training=True
+#         )
+#     unique_values = data[feature].unique()
+#     metrics = {}
 
-    for value in unique_values:
-        subset = test[test[feature] == value]
-        X_test, y_test, encoder, lb = process_data(
-                subset, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
-            )
-        y_pred = inference(model, X_test)
-        precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
-        metrics[value] = {
-            "Precision": precision,
-            "Recall": recall,
-            "Fbeta": fbeta
-        }
+#     for value in unique_values:
+#         subset = test[test[feature] == value]
+#         X_test, y_test, encoder, lb = process_data(
+#                 subset, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+#             )
+#         y_pred = inference(model, X_test)
+#         precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
+#         metrics[value] = {
+#             "Precision": precision,
+#             "Recall": recall,
+#             "Fbeta": fbeta
+#         }
 
-    return metrics
+#     return metrics
 
 
 def inference(model, X):

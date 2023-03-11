@@ -2,7 +2,11 @@ import pytest
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
+from starter.ml.model import train_model, compute_model_metrics, inference
 from starter.ml.data import process_data
+import pdb
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 try:
@@ -48,21 +52,50 @@ def cat_features():
     return cat_features
 
 
-def test_split_data(data):
+def test_data_shape(data):
+    """ Tests if our data has all 32561 rows containing 15 features each"""
+    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+
+
+def test_process_data(data, cat_features):
     """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
     train, test = train_test_split(data, test_size=0.20, random_state=42)
 
-    assert train.shape[0] > test.shape[0], "Data does not have the expected shape."
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+    )
 
-def test_process_train_data(data, cat_features):
-    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
+    assert X_train.shape[0] == y_train.shape[0], "train data has not been processed correctly."
+    assert isinstance(encoder, OneHotEncoder), "encoder is not a OneHotEncoder"
+    assert isinstance(lb, LabelBinarizer), "lb is not a LabelBinarizer"
+
+    # Process the test data with the process_data function.
+    X_test, y_test, _, _ = process_data(
+        test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+    )
+
+    assert X_test.shape[0] == y_test.shape[0], "test data has not been processed correctly."
+    assert X_train.shape[1] == X_test.shape[1], "train and test data dont have the same amount of features"
+    assert X_train.shape[1] == 108, "the data has not been encoded correctly"
+
+
+def test_model_inference(data, cat_features):
+    """ Tests model inference"""
     train, test = train_test_split(data, test_size=0.20, random_state=42)
     X_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
-        )
-    assert X_train.shape == (26048, 108) and y_train.shape == (26048,), "Data does not have the expected shape."
+    )
+    X_test, y_test, _, _ = process_data(
+        test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+    )
 
-def test_train_model(data):
-    """ Tests if our data has all 6513 rows containing 107 features and 1 target variable each"""
-    assert data.shape == (32561, 15) , "Data does not have the expected shape."
+    rfc = RandomForestClassifier(random_state=42)
+    rfc = train_model(rfc, X_train, y_train)
+    preds = inference(rfc, X_test)
+    precision, recall, fbeta = compute_model_metrics(y_test, preds)
+
+    assert precision > 0, "Model was not able to learn and predict"
+    assert recall > 0, "Model was not able to learn and predict"
+    assert fbeta > 0, "Model was not able to learn and predict"
+
 

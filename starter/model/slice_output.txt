@@ -1,0 +1,44 @@
+sex
+ Female: {'Precision': 0.7358490566037735, 'Recall': 0.5021459227467812, 'Fbeta': 0.5969387755102041}
+ Male: {'Precision': 0.7895220588235294, 'Recall': 0.6420029895366218, 'Fbeta': 0.708161582852432}
+
+education
+ Some-college: {'Precision': 0.7360406091370558, 'Recall': 0.5234657039711191, 'Fbeta': 0.6118143459915611}
+ HS-grad: {'Precision': 0.7737226277372263, 'Recall': 0.3072463768115942, 'Fbeta': 0.4398340248962656}
+ Bachelors: {'Precision': 0.7694013303769401, 'Recall': 0.7711111111111111, 'Fbeta': 0.7702552719200889}
+ Masters: {'Precision': 0.8356807511737089, 'Recall': 0.8599033816425121, 'Fbeta': 0.8476190476190477}
+ Assoc-acdm: {'Precision': 0.7368421052631579, 'Recall': 0.5957446808510638, 'Fbeta': 0.6588235294117647}
+ 7th-8th: {'Precision': 1.0, 'Recall': 0.0, 'Fbeta': 0.0}
+ 11th: {'Precision': 1.0, 'Recall': 0.2727272727272727, 'Fbeta': 0.42857142857142855}
+ Assoc-voc: {'Precision': 0.6938775510204082, 'Recall': 0.5396825396825397, 'Fbeta': 0.6071428571428572}
+ Prof-school: {'Precision': 0.8351648351648352, 'Recall': 0.9047619047619048, 'Fbeta': 0.8685714285714285}
+ 9th: {'Precision': 1.0, 'Recall': 0.3333333333333333, 'Fbeta': 0.5}
+ 5th-6th: {'Precision': 1.0, 'Recall': 0.5, 'Fbeta': 0.6666666666666666}
+ 10th: {'Precision': 1.0, 'Recall': 0.08333333333333333, 'Fbeta': 0.15384615384615385}
+ Doctorate: {'Precision': 0.8548387096774194, 'Recall': 0.9298245614035088, 'Fbeta': 0.8907563025210085}
+ 12th: {'Precision': 1.0, 'Recall': 0.4, 'Fbeta': 0.5714285714285715}
+ 1st-4th: {'Precision': 1.0, 'Recall': 1.0, 'Fbeta': 1.0}
+ Preschool: {'Precision': 1.0, 'Recall': 1.0, 'Fbeta': 1.0}
+
+sex
+ Female: {'Precision': 0.7704918032786885, 'Recall': 0.4034334763948498, 'Fbeta': 0.5295774647887324}
+ Male: {'Precision': 0.778836987607245, 'Recall': 0.6106128550074739, 'Fbeta': 0.6845412651864264}
+
+education
+ Some-college: {'Precision': 0.7581699346405228, 'Recall': 0.4187725631768953, 'Fbeta': 0.5395348837209303}
+ HS-grad: {'Precision': 0.8765432098765432, 'Recall': 0.20579710144927535, 'Fbeta': 0.33333333333333337}
+ Bachelors: {'Precision': 0.7326530612244898, 'Recall': 0.7977777777777778, 'Fbeta': 0.7638297872340426}
+ Masters: {'Precision': 0.8064516129032258, 'Recall': 0.8454106280193237, 'Fbeta': 0.8254716981132075}
+ Assoc-acdm: {'Precision': 0.8055555555555556, 'Recall': 0.6170212765957447, 'Fbeta': 0.6987951807228916}
+ 7th-8th: {'Precision': 1.0, 'Recall': 0.0, 'Fbeta': 0.0}
+ 11th: {'Precision': 1.0, 'Recall': 0.2727272727272727, 'Fbeta': 0.42857142857142855}
+ Assoc-voc: {'Precision': 0.7560975609756098, 'Recall': 0.49206349206349204, 'Fbeta': 0.5961538461538461}
+ Prof-school: {'Precision': 0.8426966292134831, 'Recall': 0.8928571428571429, 'Fbeta': 0.8670520231213873}
+ 9th: {'Precision': 1.0, 'Recall': 0.3333333333333333, 'Fbeta': 0.5}
+ 5th-6th: {'Precision': 1.0, 'Recall': 0.5, 'Fbeta': 0.6666666666666666}
+ 10th: {'Precision': 1.0, 'Recall': 0.08333333333333333, 'Fbeta': 0.15384615384615385}
+ Doctorate: {'Precision': 0.8363636363636363, 'Recall': 0.8070175438596491, 'Fbeta': 0.8214285714285714}
+ 12th: {'Precision': 1.0, 'Recall': 0.4, 'Fbeta': 0.5714285714285715}
+ 1st-4th: {'Precision': 1.0, 'Recall': 1.0, 'Fbeta': 1.0}
+ Preschool: {'Precision': 1.0, 'Recall': 1.0, 'Fbeta': 1.0}
+

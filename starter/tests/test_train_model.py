@@ -7,7 +7,7 @@ from starter.ml.data import process_data
 import pdb
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-
+import warnings
 
 try:
     from dotenv import load_dotenv
@@ -98,4 +98,4 @@ def test_model_inference(data, cat_features):
     assert recall > 0, "Model was not able to learn and predict"
     assert fbeta > 0, "Model was not able to learn and predict"
 
-
+warnings.filterwarnings("ignore")

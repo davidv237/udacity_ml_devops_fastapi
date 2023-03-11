@@ -33,6 +33,11 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+    - name: Start server
+      run: |
+        export PYTHONPATH=$PYTHONPATH:/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/starter
+        uvicorn salaryapi:app --host 0.0.0.0 --port 8000 &
+
     - name: Run Pytest
       run: |
         pwd

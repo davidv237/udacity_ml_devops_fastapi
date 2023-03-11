@@ -140,7 +140,7 @@ def save_model(model, encoder, pth):
         String with path
 
     """
-    path_to_model = os.path.join(pth,'logistic_regression.joblib')
+    path_to_model = os.path.join(pth,'randomforest.joblib')
     joblib.dump(model, path_to_model)
 
     path_to_encoder = os.path.join(pth,'encoder.joblib')

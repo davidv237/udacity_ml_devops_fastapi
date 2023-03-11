@@ -1,10 +1,8 @@
 # Script to train machine learning model.
 
-
-from sklearn.linear_model import LogisticRegression
-from ml.model import train_model, compute_model_metrics, inference, load_model, save_model, evaluate_slices, cat_features, hyperparameter_tuning
+from ml.model import hyperparameter_tuning, train_model, compute_model_metrics, evaluate_slice_performance,inference, save_model,load_model, cat_features
 from ml.data import process_data, prepare_data
-
+from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
 import joblib
@@ -35,14 +33,29 @@ data.columns = data.columns.str.strip()
 print(data.shape)
 
 # Splitting and preparing data
-print('Splitting and preparing data ...')
-X_train, y_train, X_test, y_test, lb, encoder = prepare_data(data, cat_features)
-print(X_train.shape)
-print(y_train.shape)
-print(X_test.shape)
-print(y_test.shape)
-print(type(lb))
-print(type(encoder))
+# print('Splitting and preparing data ...')
+# X_train, y_train, X_test, y_test, lb, encoder = prepare_data(data, cat_features)
+# print(X_train.shape)
+# print(y_train.shape)
+# print(X_test.shape)
+# print(y_test.shape)
+# print(type(lb))
+# print(type(encoder))
+
+
+# splitting data
+train, test = train_test_split(data, test_size=0.20, random_state=42)
+
+# processing train data
+X_train, y_train, encoder, lb = process_data(
+    train, categorical_features=cat_features, label="salary", training=True
+)
+
+# Process the test data with the process_data function.
+X_test, y_test, _, _ = process_data(
+    test, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
+)
+
 
 # Train model
 print('Optimizing model ...')
@@ -73,12 +86,21 @@ print(f"Precision: {precision}")
 print(f"Recall: {recall}")
 print(f"Fbeta: {fbeta}")
 
-results = []
 
-for feature in cat_features:
-    try:
-        results.append(evaluate_slices(loaded_model, data, feature))
-    except ValueError:
-        pass
+slice_features = ["sex", "education"]
+try:
+    metrics = evaluate_slice_performance(loaded_model, test, encoder, lb, slice_features)
+except ValueError:
+    pass
 
-print(results)
+print("Creating txt file")
+# Open a file in write mode
+with open('model/slice_output.txt', 'a') as file:
+    # Iterate over the list and write each element to the file
+    for feature, metric in metrics:
+        file.write(feature + '\n')
+        for key, value in metric.items():
+            file.write(str(key) + ': ' + str(value) + '\n')
+        file.write('\n')
+
+print("Success ..")

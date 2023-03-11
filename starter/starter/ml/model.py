@@ -1,11 +1,12 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
 from scipy.stats import randint
+import numpy as np
 
 import os
 import joblib
@@ -39,13 +40,11 @@ def hyperparameter_tuning(X_train, y_train):
     """
     param_grid = {
     'n_estimators': [50, 100, 200],
-    'max_depth': [10, 20, 30, None],
-    'max_features': ['auto', 'sqrt']
+    'max_depth': [1,5,10, 20, 30, None],
     }
     param_dist = {
         'n_estimators': randint(50, 500),
         'max_depth': [10, 20, 30, None],
-        'max_features': ['auto', 'sqrt'],
         'min_samples_split': randint(2, 20),
         'min_samples_leaf': randint(1, 20),
         'bootstrap': [True, False]
@@ -55,7 +54,7 @@ def hyperparameter_tuning(X_train, y_train):
 
 
     # Perform grid search to find the best hyperparameters
-    grid_search = RandomizedSearchCV(estimator=rfc, param_distributions=param_dist, n_iter=10, cv=3,verbose=2)
+    grid_search = RandomizedSearchCV(estimator=rfc, param_distributions=param_dist, n_iter=1, cv=3,verbose=10)
     grid_search.fit(X_train, y_train)
 
     # Get the best hyperparameters
@@ -113,29 +112,20 @@ def compute_model_metrics(y, preds):
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
 
-# def evaluate_slices(model, data, feature):
+def evaluate_slices(model, encoder, lb, test, feature, unique_values_for_feature):
+    metrics = {}
 
-#     train, test = train_test_split(data, test_size=0.20, random_state=42)
-#     _, _, encoder, lb = process_data(
-#             train, categorical_features=cat_features, label="salary", training=True
-#         )
-#     unique_values = data[feature].unique()
-#     metrics = {}
+    for value in unique_values_for_feature:
+        subset = test[test[feature] == value]
+        y_pred = inference(model, subset)
+        precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
+        metrics[value] = {
+            "Precision": precision,
+            "Recall": recall,
+            "Fbeta": fbeta
+        }
 
-#     for value in unique_values:
-#         subset = test[test[feature] == value]
-#         X_test, y_test, encoder, lb = process_data(
-#                 subset, categorical_features=cat_features, label="salary", training=False, lb=lb, encoder=encoder
-#             )
-#         y_pred = inference(model, X_test)
-#         precision, recall, fbeta = compute_model_metrics(y_test, y_pred)
-#         metrics[value] = {
-#             "Precision": precision,
-#             "Recall": recall,
-#             "Fbeta": fbeta
-#         }
-
-#     return metrics
+    return metrics
 
 
 def inference(model, X):
@@ -188,5 +178,41 @@ def load_model(path_to_model):
     return model
 
 
+def evaluate_slice_performance(model, test, encoder, lb, slice_features):
+    results = []
 
+    for feature in slice_features:
+        #get unique values for evaluation on slices
+        unique_values_for_feature = test[feature].unique()
+        metrics = {}
+        for value in unique_values_for_feature:
+            subset = test[test[feature] == value]
+
+            y = subset["salary"]
+            X = subset.drop(["salary"], axis=1)
+
+            X_categorical = X[cat_features].values
+            X_continuous = X.drop(*[cat_features], axis=1)
+
+            X_categorical = encoder.transform(X_categorical)
+            try:
+                y = lb.transform(y.values).ravel()
+            # Catch the case where y is None because we're doing inference.
+            except AttributeError:
+                pass
+
+            X = np.concatenate([X_continuous, X_categorical], axis=1)
+
+            y_pred = inference(model, X)
+            precision, recall, fbeta = compute_model_metrics(y, y_pred)
+            metrics[value] = {
+                "Precision": precision,
+                "Recall": recall,
+                "Fbeta": fbeta
+            }
+        metrics = (feature, metrics)
+
+        results.append(metrics)
+
+    return results
 

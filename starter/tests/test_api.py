@@ -89,16 +89,16 @@ def test_post_method(post_data):
     """ Tests if our data has all 32561 rows containing 15 features each"""
     response = requests.post('http://localhost:8000/predict', json=post_data)
     # Get the prediction result from the response
-    #prediction = response.json()
+    prediction = response.json()
     print(response.text)
 
-    assert response.status_code == 200
-    #assert prediction["predictions"] == '[" <=50K"]'
+    assert response.status_code == 200, "Response was not 200"
+    assert prediction["predictions"] == '[" <=50K"]', "Prediction was not like expected"
 
 def test_income_prediction_high(high_income_data):
     response = requests.post('http://localhost:8000/predict', json=high_income_data)
     prediction = response.json()
 
-    assert response.status_code == 200
-    assert prediction["predictions"] == '[" >50K"]'
+    assert response.status_code == 200, "Response was not 200"
+    assert prediction["predictions"] == '[" >50K"]', "Prediction was not like expected"
 

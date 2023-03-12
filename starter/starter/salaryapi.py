@@ -47,7 +47,6 @@ print("paths")
 #encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
 #label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
 
-print(model_path)
 
 model_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/randomforest.joblib"
 encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/encoder.joblib"

@@ -50,6 +50,13 @@ if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
     encoder_path = 'model/encoder.joblib'
     label_encoder_path = 'model/lb.joblib'
 
+elif 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'production':
+    # Do something if the environment variable is set to 'some_value'
+    print("Environment is set to 'production'")
+    model_path = '/app/starter/model/randomforest.joblib'
+    encoder_path = '/app/starter/model/encoder.joblib'
+    label_encoder_path = '/app/starter/model/lb.joblib'
+
 else:
     # Do something else if the environment variable is not set or has a different value
     print("ENVIRONMENT is set to GitHub Actions")

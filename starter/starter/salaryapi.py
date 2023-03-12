@@ -9,6 +9,44 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 import json
 
+try:
+    from dotenv import load_dotenv
+
+    # Load environment variables from .env file
+    load_dotenv()
+
+except ImportError:
+    print("dotenv is not installed")
+
+
+if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
+    # Do something if the environment variable is set to 'some_value'
+    print("Environment is set to 'development'")
+    cwd = os.getcwd()
+    print(cwd)
+
+    # Get the absolute path of the current file
+    current_file_path = os.path.abspath(__file__)
+    print(current_file_path)
+
+    # Get the parent directory of the current file
+    parent_directory_path = os.path.dirname(current_file_path)
+
+    # Get the parent directory of the current file
+    project_directory_path = os.path.dirname(parent_directory_path)
+
+    model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
+    encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
+    label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
+
+else:
+    # Do something else if the environment variable is not set or has a different value
+    print("ENVIRONMENT is set to GitHub Actions")
+    model_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/randomforest.joblib"
+    encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/encoder.joblib"
+    label_encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib"
+
+
 # Define the FastAPI app
 app = FastAPI()
 
@@ -29,28 +67,6 @@ class InputData(BaseModel):
     hours_per_week: int
     native_country: str
 
-cwd = os.getcwd()
-print(cwd)
-
-# Get the absolute path of the current file
-current_file_path = os.path.abspath(__file__)
-print(current_file_path)
-
-# Get the parent directory of the current file
-parent_directory_path = os.path.dirname(current_file_path)
-
-# Get the parent directory of the current file
-project_directory_path = os.path.dirname(parent_directory_path)
-
-print("paths")
-#model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
-#encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
-#label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
-
-
-model_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/randomforest.joblib"
-encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/encoder.joblib"
-label_encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib"
 
 print("loading model, encoder, lb")
 model = load_model(model_path)

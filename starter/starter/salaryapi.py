@@ -43,12 +43,15 @@ parent_directory_path = os.path.dirname(current_file_path)
 project_directory_path = os.path.dirname(parent_directory_path)
 
 print("paths")
-model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
-encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
-label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
+#model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
+#encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
+#label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
 
 print(model_path)
 
+model_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/randomforest.joblib"
+encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/encoder.joblib"
+label_encoder_path = "/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib"
 
 print("loading model, encoder, lb")
 model = load_model(model_path)

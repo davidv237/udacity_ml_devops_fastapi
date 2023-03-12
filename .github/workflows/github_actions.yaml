@@ -36,7 +36,7 @@ jobs:
     - name: Start server
       run: |
         export PYTHONPATH=$PYTHONPATH:/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter
-        uvicorn starter.main:app --host 0.0.0.0 --reload --port 8000 &
+        uvicorn main:app --host 0.0.0.0 --reload --port 8000 &
 
     - name: Run Pytest
       run: |

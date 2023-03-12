@@ -1,15 +1,11 @@
-from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.linear_model import LogisticRegression
-
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV,  RandomizedSearchCV
-from scipy.stats import randint
 import numpy as np
-
 import os
 import joblib
+
+from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
 
 cat_features = [
     "workclass",
@@ -38,10 +34,6 @@ def hyperparameter_tuning(X_train, y_train):
     model
         Trained machine learning model.
     """
-    param_grid = {
-    'n_estimators': [50, 100, 200],
-    'max_depth': [1,5,10, 20, 30, None],
-    }
     param_dist = {
         'n_estimators': randint(50, 500),
         'max_depth': [10, 20, 30, None],
@@ -51,7 +43,6 @@ def hyperparameter_tuning(X_train, y_train):
     }
     # Define the Random Forest Classifier
     rfc = RandomForestClassifier(random_state=42)
-
 
     # Perform grid search to find the best hyperparameters
     grid_search = RandomizedSearchCV(estimator=rfc, param_distributions=param_dist, n_iter=1, cv=3,verbose=10)
@@ -81,12 +72,6 @@ def train_model(model, X_train, y_train):
     model
         Trained machine learning model.
     """
-
-    # Define the logistic regression model
-    #model = LogisticRegression(max_iter=1000)
-    #model.fit(X_train,y_train)
-
-    #rfc = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
     model.fit(X_train, y_train)
 
     return model

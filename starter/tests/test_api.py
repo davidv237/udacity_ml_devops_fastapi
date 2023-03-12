@@ -29,7 +29,7 @@ if 'ENVIRONMENT' in os.environ and os.environ['ENVIRONMENT'] == 'development':
 
 else:
     # Do something else if the environment variable is not set or has a different value
-    print("ENVIRONMENT is set to GitHub Actions")
+    print("Running on GitHub Actions")
     label_encoder_path = '/home/runner/work/udacity_ml_devops_fastapi/udacity_ml_devops_fastapi/starter/model/lb.joblib'
 
 

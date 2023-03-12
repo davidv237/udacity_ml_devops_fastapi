@@ -34,6 +34,7 @@ print(cwd)
 
 # Get the absolute path of the current file
 current_file_path = os.path.abspath(__file__)
+print(current_file_path)
 
 # Get the parent directory of the current file
 parent_directory_path = os.path.dirname(current_file_path)
@@ -41,10 +42,15 @@ parent_directory_path = os.path.dirname(current_file_path)
 # Get the parent directory of the current file
 project_directory_path = os.path.dirname(parent_directory_path)
 
+print("paths")
 model_path = os.path.join(project_directory_path,'model/randomforest.joblib')
 encoder_path = os.path.join(project_directory_path,'model/encoder.joblib')
 label_encoder_path = os.path.join(project_directory_path,'model/lb.joblib')
 
+print(model_path)
+
+
+print("loading model, encoder, lb")
 model = load_model(model_path)
 encoder = load_model(encoder_path)
 lb = load_model(label_encoder_path)
@@ -67,7 +73,9 @@ async def root():
 @app.post("/predict")
 async def predict(data: InputData):
     # Convert the input data to a dictionary
+    print("data_dict")
     data_dict = data.dict()
+    print(data_dict)
 
     # Convert the dictionary to a pandas DataFrame
     X_test = pd.DataFrame.from_dict([data_dict])
@@ -76,6 +84,7 @@ async def predict(data: InputData):
     X_test_processed, _, _, _ = process_data(X_test, categorical_features=["workclass", "education", "marital_status", "occupation", "relationship", "race", "sex", "native_country"], training=False, encoder=encoder, lb=lb)
 
     # Make predictions using the loaded model
+    print("predictions")
     predictions = inference(model, X_test_processed)
 
 
